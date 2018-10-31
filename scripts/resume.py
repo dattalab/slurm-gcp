@@ -103,7 +103,7 @@ def create_instance(compute, project, zone, instance_type, instance_name):
         'value': startup_script
       }, {
         'key': 'enable-oslogin',
-        'value': 'TRUE'
+        'value': 'FALSE'
       }]
     }
   }
