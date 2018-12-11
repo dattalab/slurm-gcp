@@ -31,6 +31,7 @@ PROJECT           = '@PROJECT@'
 ZONE              = '@ZONE@'
 
 APPS_DIR          = '/apps'
+MUNGE_DIR         = "/etc/munge"
 MUNGE_KEY         = '@MUNGE_KEY@'
 SLURM_VERSION     = '@SLURM_VERSION@'
 STATIC_NODE_COUNT = @STATIC_NODE_COUNT@
@@ -204,7 +205,7 @@ def install_packages():
         time.sleep(5)
 
     if GPU_COUNT and (INSTANCE_TYPE == "compute"):
-        rpm = "cuda-repo-rhel7-9.2.148-1.x86_64.rpm"
+        rpm = "cuda-repo-rhel7-10.0.130-1.x86_64.rpm"
         subprocess.call("yum -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)", shell=True)
         subprocess.call(shlex.split("wget http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/" + rpm))
         subprocess.call(shlex.split("sudo rpm -i " + rpm))
@@ -215,8 +216,6 @@ def install_packages():
 #END install_packages()
 
 def setup_munge():
-
-    MUNGE_DIR = "/etc/munge"
 
     f = open('/etc/fstab', 'a')
     if not NFS_APPS_SERVER:
@@ -231,6 +230,13 @@ def setup_munge():
     f.close()
 
     if (INSTANCE_TYPE != "controller"):
+        munge_over_path = "/etc/systemd/system/munge.service.d"
+        if not os.path.exists(munge_over_path):
+            os.makedirs(munge_over_path)
+        f = open(munge_over_path + "/override.conf", 'w')
+        f.write("[Unit]\nRequiresMountsFor={}\n".format(MUNGE_DIR))
+        f.close()
+
         return
 
     if MUNGE_KEY:
@@ -469,7 +475,7 @@ JobCompType=jobcomp/none
 #JobCompUser=
 #JobContainerType=job_container/none
 JobAcctGatherFrequency=30
-JobAcctGatherType=jobacct_gather/none
+JobAcctGatherType=jobacct_gather/linux
 SlurmctldDebug=info
 SlurmctldLogFile={apps_dir}/slurm/log/slurmctld.log
 SlurmdDebug=debug
@@ -525,7 +531,7 @@ NodeName={1}-compute{0}
         conf += "NodeName={0}-compute{1} State=CLOUD".format(CLUSTER_NAME, cloud_range)
 
     conf += """
-PartitionName=debug Nodes={0}-compute[1-{1:d}] Default=YES MaxTime=INFINITE State=UP
+PartitionName=debug Nodes={0}-compute[1-{1:d}] Default=YES MaxTime=INFINITE State=UP LLN=yes
 """.format(CLUSTER_NAME, MAX_NODE_COUNT)
 
     etc_dir = SLURM_PREFIX + '/etc'
@@ -899,13 +905,6 @@ def format_disk():
 def main():
     # Disable SELinux
     subprocess.call(shlex.split('setenforce 0'))
-
-    if ((INSTANCE_TYPE == "controller") and  not EXTERNAL_COMPUTE_IPS):
-        # Setup a NAT gateway for the compute instances to get internet from.
-        subprocess.call(shlex.split("sysctl -w net.ipv4.ip_forward=1"))
-        subprocess.call(shlex.split("firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -o eth0 -j MASQUERADE"))
-        subprocess.call(shlex.split("firewall-cmd --reload"))
-        subprocess.call(shlex.split("echo net.ipv4.ip_forward=1 >> /etc/sysctl.conf"))
 
     if INSTANCE_TYPE == "compute":
         while not have_internet():
