@@ -23,7 +23,7 @@ resources:
 - name: slurm-cluster
   type: slurm.jinja
   properties:
-    cluster_name            : dattaclust
+    cluster_name            : datta-gpu
     static_node_count       : 0
     max_node_count          : 200
 
@@ -45,7 +45,7 @@ resources:
     compute_disk_type          : pd-standard
     compute_disk_size_gb       : 50
     controller_disk_type       : pd-ssd
-    controller_disk_size_gb    : 2000
+    controller_disk_size_gb    : 1000
     login_disk_type            : pd-standard
     login_disk_size_gb         : 10
     #nfs_apps_server            :

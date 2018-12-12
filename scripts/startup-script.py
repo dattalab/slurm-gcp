@@ -204,14 +204,23 @@ def install_packages():
         print "failed to install google python api client. Trying again 5 seconds."
         time.sleep(5)
 
-    if GPU_COUNT and (INSTANCE_TYPE == "compute"):
-        rpm = "cuda-repo-rhel7-10.0.130-1.x86_64.rpm"
-        subprocess.call("yum -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)", shell=True)
-        subprocess.call(shlex.split("wget http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/" + rpm))
-        subprocess.call(shlex.split("sudo rpm -i " + rpm))
-        subprocess.call(shlex.split("sudo yum clean all"))
-        subprocess.call(shlex.split("sudo yum -y install cuda"))
-        subprocess.call(shlex.split("nvidia-smi")) # Creates the device files
+    # if GPU_COUNT and (INSTANCE_TYPE == "compute"):
+    #     #rpm = "cuda-repo-rhel7-10.0.130-1.x86_64.rpm"
+    #     # for tensorflow we need cuda 9 (rest will be installed through conda)
+    #     print "Installing CUDA 9.0"
+    #     subprocess.call("yum -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)", shell=True)
+    #     # run_file = "cuda_9.0.176_384.81_linux-run"
+    #     # subprocess.call(shlex.split("wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/" + run_file))
+    #     # subprocess.call(shlex.split("sudo sh " + run_file + " --silent --driver --toolkit"))
+    #
+    #     rpm= "cuda-repo-rhel7-9.0.176-1.x86_64.rpm"
+    #     subprocess.call(shlex.split("wget http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/" + rpm))
+    #     subprocess.call(shlex.split("rpm -i " + rpm))
+    #     subprocess.call(shlex.split("yum clean all"))
+    #     # subprocess.call(shlex.split("sudo yum update -y"))
+    #     subprocess.call(shlex.split("yum -y install cuda-9-0"))
+    #     subprocess.call(shlex.split("nvidia-smi")) # Creates the device files
+
 
 #END install_packages()
 
@@ -384,7 +393,7 @@ ProctrackType=proctrack/cgroup
 #PropagatePrioProcess=0
 #PropagateResourceLimits=
 #PropagateResourceLimitsExcept=Sched
-#RebootProgram=
+RebootProgram=/sbin/reboot
 
 ReturnToService=2
 #SallocDefaultCommand=
@@ -996,6 +1005,11 @@ def main():
         subprocess.call(shlex.split('gcloud compute instances remove-metadata '+ hostname + ' --zone=' + ZONE + ' --keys=startup-script'))
 
     end_motd()
+
+    # copy cudnn to nfs server and untar, we'll copy to each compute node during startup
+    # if GPU_COUNT and INSTANCE_TYPE == "controller":
+
+
 
 # END main()
 

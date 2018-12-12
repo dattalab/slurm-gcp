@@ -54,8 +54,12 @@ LOGFILE      = '/apps/slurm/log/resume.log'
 # [START create_instance]
 def create_instance(compute, project, zone, instance_type, instance_name):
   # Get the latest CentOS 7image.
-  image_response = compute.images().getFromFamily(
-    project='centos-cloud', family='centos-7').execute()
+  if GPU_TYPE:
+      image_response = compute.images().get(
+        project='datta-cluster', image='centos7-cuda9-cudnn9-nccl2').execute()
+  else:
+      image_response = compute.images().getFromFamily(
+        project='centos-cloud', family='centos-7').execute()
   source_disk_image = image_response['selfLink']
 
   # Configure the machine
