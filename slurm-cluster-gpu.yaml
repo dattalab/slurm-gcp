@@ -45,7 +45,7 @@ resources:
     compute_disk_type          : pd-standard
     compute_disk_size_gb       : 50
     controller_disk_type       : pd-ssd
-    controller_disk_size_gb    : 1000
+    controller_disk_size_gb    : 2000
     login_disk_type            : pd-standard
     login_disk_size_gb         : 10
     #nfs_apps_server            :
@@ -56,7 +56,7 @@ resources:
 
     # Optional GPU configuration fields
     gpu_type                   : nvidia-tesla-p100
-    gpu_count                  : 2
+    gpu_count                  : 1
 
     slurm_version           : 17.11.12
     default_account         : default
