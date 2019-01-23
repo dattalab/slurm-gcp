@@ -60,5 +60,5 @@ resources:
 
     slurm_version           : 17.11.12
     default_account         : default
-    default_users           : dattalab, jmarkow, ralph, wgillis
+    default_users           : dattalab, jmarkow, ralph, wgillis, diegoaldarondo
 #  [END cluster_yaml]
