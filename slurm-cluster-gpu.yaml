@@ -58,7 +58,7 @@ resources:
     gpu_type                   : nvidia-tesla-p100
     gpu_count                  : 1
 
-    slurm_version           : 17.11.12
+    slurm_version           : 18.08.4
     default_account         : default
     default_users           : dattalab, jmarkow, ralph, wgillis, diegoaldarondo
 #  [END cluster_yaml]
