@@ -45,7 +45,7 @@ resources:
     compute_disk_type          : pd-standard
     compute_disk_size_gb       : 50
     controller_disk_type       : pd-standard
-    controller_disk_size_gb    : 3000
+    controller_disk_size_gb    : 2000
     login_disk_type            : pd-standard
     login_disk_size_gb         : 10
     #nfs_apps_server            :
