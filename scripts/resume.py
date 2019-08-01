@@ -67,36 +67,6 @@ http = set_user_agent(httplib2.Http(), "Slurm_GCP_Scripts/1.1 (GPN:SchedMD)")
 authorized_http = google_auth_httplib2.AuthorizedHttp(credentials, http=http)
 
 # [START create_instance]
-<<<<<<< HEAD
-def create_instance(compute, project, zone, instance_type, instance_name):
-  # Get the latest CentOS 7image.
-  if GPU_TYPE:
-      image_response = compute.images().get(
-        project='datta-cluster', image='centos7-cuda9-cudnn9-nccl2').execute()
-  else:
-      image_response = compute.images().getFromFamily(
-        project='centos-cloud', family='centos-7').execute()
-  source_disk_image = image_response['selfLink']
-
-  # Configure the machine
-  machine_type = "zones/%s/machineTypes/%s" % (zone, instance_type)
-  disk_type = "projects/%s/zones/%s/diskTypes/%s" % (PROJECT, ZONE, DISK_TYPE)
-  startup_script = open('/apps/slurm/scripts/startup-script.py', 'r').read()
-
-  config = {
-    'name': instance_name,
-    'machineType': machine_type,
-
-    # Specify the boot disk and the image to use as a source.
-    'disks': [
-      {
-        'boot': True,
-        'autoDelete': True,
-        'initializeParams': {
-          'sourceImage': source_disk_image,
-          'diskType': disk_type,
-          'diskSizeGb': DISK_SIZE_GB
-=======
 def create_instance(compute, project, zone, instance_type, instance_name,
                     source_disk_image, have_compute_img):
     # Configure the machine
@@ -138,7 +108,6 @@ def create_instance(compute, project, zone, instance_type, instance_name,
                 'key': 'enable-oslogin',
                 'value': 'TRUE'
             }]
->>>>>>> upstream/master
         }
     }
 
