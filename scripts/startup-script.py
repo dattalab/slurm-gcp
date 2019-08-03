@@ -51,8 +51,8 @@ CONTROLLER_SECONDARY_DISK = @CONTROLLER_SECONDARY_DISK@
 SEC_DISK_DIR      = '/mnt/disks/sec'
 #PREEMPTIBLE       = @PREEMPTIBLE@
 SUSPEND_TIME      = @SUSPEND_TIME@
-RESUME_TIMEOUT    = 300
-SUSPEND_TIMEOUT   = 300
+RESUME_TIMEOUT    = 600
+SUSPEND_TIMEOUT   = 600
 PARTITIONS        = @PARTITIONS@
 
 DEF_PART_NAME   = "debug"
@@ -251,17 +251,17 @@ def install_packages():
     #     subprocess.call(shlex.split("yum -y install cuda-9-0"))
     #     subprocess.call(shlex.split("nvidia-smi")) # Creates the device files
 
-    # if INSTANCE_TYPE == "compute" :
-    #     hostname = socket.gethostname()
-    #     pid = int( hostname[-6:-4] )
-    #     if PARTITIONS[pid]["gpu_count"]:
-    #         rpm = "cuda-repo-rhel7-10.0.130-1.x86_64.rpm"
-    #         subprocess.call("yum -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)", shell=True)
-    #         subprocess.call(shlex.split("wget http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/" + rpm))
-    #         subprocess.call(shlex.split("rpm -i " + rpm))
-    #         subprocess.call(shlex.split("yum clean all"))
-    #         subprocess.call(shlex.split("yum -y install cuda"))
-    #         subprocess.call(shlex.split("nvidia-smi")) # Creates the device files
+    if INSTANCE_TYPE == "compute" :
+        hostname = socket.gethostname()
+        pid = int( hostname[-6:-4] )
+        if PARTITIONS[pid]["gpu_count"]:
+            rpm = "cuda-repo-rhel7-10.0.130-1.x86_64.rpm"
+            subprocess.call("yum -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)", shell=True)
+            subprocess.call(shlex.split("wget http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/" + rpm))
+            subprocess.call(shlex.split("rpm -i " + rpm))
+            subprocess.call(shlex.split("yum clean all"))
+            subprocess.call(shlex.split("yum -y install cuda"))
+            subprocess.call(shlex.split("nvidia-smi")) # Creates the device files
 
 #END install_packages()
 

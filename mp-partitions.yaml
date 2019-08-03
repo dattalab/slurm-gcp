@@ -1,0 +1,65 @@
+partitions:
+  - name: small-utility
+    zones:
+      # - zone: us-east1-d
+      #   name: d
+      - zone: us-east1-b
+        name: b
+    preemptible:
+      - false
+    gpu:
+    gpu_count:
+    max_node_count: 5
+    machine_type: n1-standard-4
+  - name: small-compute
+    zones:
+      - zone: us-east1-d
+        name: d
+      - zone: us-east1-b
+        name: b
+    preemptible:
+      - true
+      # - false
+    gpu:
+    gpu_count:
+    max_node_count: 50
+    machine_type: n1-standard-16
+  - name: big-compute
+    zones:
+      - zone: us-east1-d
+        name: d
+      - zone: us-east1-b
+        name: b
+    preemptible:
+      - true
+      - false
+    gpu:
+    gpu_count:
+    max_node_count: 5
+    machine_type: n1-standard-64
+  - name: small-gpu
+    zones:
+      # - zone: us-east1-d
+      #   name: d
+      - zone: us-east1-b
+        name: b
+    preemptible:
+      - true
+      # - false
+    gpu: nvidia-tesla-p100
+    gpu_count: 1
+    max_node_count: 10
+    machine_type: n1-standard-16
+  - name: big-gpu
+    zones:
+      # - zone: us-east1-d
+      #   name: d
+      - zone: us-east1-b
+        name: b
+    preemptible:
+      - true
+      # - false
+    gpu: nvidia-tesla-p100
+    gpu_count: 4
+    max_node_count: 10
+    machine_type: n1-standard-16

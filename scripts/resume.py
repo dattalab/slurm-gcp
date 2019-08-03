@@ -193,19 +193,18 @@ def get_source_image( compute, node_name ):
             raise Exception("image not ready")
         source_disk_image = image_response['selfLink']
         have_compute_img = True
-    except:
-        except:
-            # attempting to figure out where to put this now... [JM insertions]
-             if GPU_TYPE:
-                 image_response = compute.images().get(
-                   project='datta-cluster', image='centos7-cuda9-cudnn9-nccl2').execute()
-             else:
-                 image_response = compute.images().getFromFamily(
-                   project='centos-cloud', family='centos-7').execute()
-                 source_disk_image = image_response['selfLink']
-            source_disk_image = image_response['selfLink']
-        # image_response = compute.images().getFromFamily(
-        #     project='centos-cloud', family='centos-7').execute()
+    except:    
+        image_response = compute.images().getFromFamily(
+            project='centos-cloud', family='centos-7').execute()
+        # attempting to figure out where to put this now... [JM insertions]
+         # if GPU_TYPE:
+         #     image_response = compute.images().get(
+         #       project='datta-cluster', image='centos7-cuda9-cudnn9-nccl2').execute()
+         # else:
+         #     image_response = compute.images().getFromFamily(
+         #       project='centos-cloud', family='centos-7').execute()
+         #     source_disk_image = image_response['selfLink']
+        # source_disk_image = image_response['selfLink']
 
     return source_disk_image, have_compute_img
 

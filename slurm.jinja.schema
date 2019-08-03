@@ -62,12 +62,8 @@ optional:
 - nfs_apps_server
 - nfs_home_dir
 - nfs_home_server
-<<<<<<< HEAD
 - preemptible_bursting
-- shared_vpc_host_project
-=======
 - shared_vpc_host_proj
->>>>>>> fluidnumerics/master
 - suspend_time
 - vpc_net
 - vpc_subnet
@@ -223,10 +219,10 @@ properties:
     minimum     : 600
     description : Idle time to wait before nodes go away (in sec)
                   From Slurm Power Save Documentation
-                  Nodes becomes eligible for power saving mode after being 
+                  Nodes becomes eligible for power saving mode after being
                   idle for this number of seconds. For efficient system utilization,
                   it is recommended that the value of SuspendTime be at least as large
-                  as the sum of SuspendTimeout plus ResumeTimeout. 
+                  as the sum of SuspendTimeout plus ResumeTimeout.
                   For slurm-gcp, note that SuspendTimeout and ResumeTimeout are hard-coded
                   at 300s in scripts/startup-script.py
 
@@ -249,7 +245,7 @@ properties:
     description: An array of configurations for specifying multiple machine types residing in their own Slurm partitions.
     items:
       type: object
-      required :  
+      required :
       - machine_type
       - name
       - max_node_count
@@ -322,7 +318,7 @@ properties:
         name:
           type        : string
           description : Name of the compute node partition
-    
+
 
         preemptible_bursting:
           type        : boolean

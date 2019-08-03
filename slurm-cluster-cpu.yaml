@@ -40,17 +40,15 @@ resources:
     #external_compute_ips       : False
     # private_google_access      : True
 
-    # compute_disk_type          : pd-standard
-    # compute_disk_size_gb       : 50
     controller_disk_type       : pd-standard
     controller_disk_size_gb    : 2000
     login_disk_type            : pd-standard
     login_disk_size_gb         : 10
-    #nfs_apps_server            :
-    #nfs_apps_dir               : /apps
-    #nfs_home_server            :
-    #nfs_home_dir               : /home
-    #controller_secondary_disk          : True
+    nfs_apps_server            :
+    nfs_apps_dir               : /apps
+    nfs_home_server            :
+    nfs_home_dir               : /home
+    # controller_secondary_disk          : True
     #controller_secondary_disk_type     : pd-standard
     #controller_secondary_disk_size_gb  : 2000
 
