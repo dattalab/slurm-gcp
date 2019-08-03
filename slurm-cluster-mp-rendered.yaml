@@ -69,22 +69,22 @@ resources:
       preemptible_bursting       : True
     - name           : big-compute-d-preemptible
       machine_type   : n1-standard-64
-      max_node_count : 5
+      max_node_count : 15
       zone           : us-east1-d
       preemptible_bursting       : True
     - name           : big-compute-d
       machine_type   : n1-standard-64
-      max_node_count : 5
+      max_node_count : 15
       zone           : us-east1-d
       preemptible_bursting       : False
     - name           : big-compute-b-preemptible
       machine_type   : n1-standard-64
-      max_node_count : 5
+      max_node_count : 15
       zone           : us-east1-b
       preemptible_bursting       : True
     - name           : big-compute-b
       machine_type   : n1-standard-64
-      max_node_count : 5
+      max_node_count : 15
       zone           : us-east1-b
       preemptible_bursting       : False
     - name           : small-gpu-b-preemptible

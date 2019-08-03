@@ -35,7 +35,7 @@ partitions:
       - false
     gpu:
     gpu_count:
-    max_node_count: 5
+    max_node_count: 15
     machine_type: n1-standard-64
   - name: small-gpu
     zones:
