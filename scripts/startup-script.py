@@ -49,6 +49,7 @@ NFS_HOME_SERVER   = '@NFS_HOME_SERVER@'
 NFS_HOME_DIR      = '@NFS_HOME_DIR@'
 CONTROLLER_SECONDARY_DISK = @CONTROLLER_SECONDARY_DISK@
 SEC_DISK_DIR      = '/mnt/disks/sec'
+# SEC_DISK_DIR      = '/n/workspace'
 #PREEMPTIBLE       = @PREEMPTIBLE@
 SUSPEND_TIME      = @SUSPEND_TIME@
 RESUME_TIMEOUT    = 600
@@ -487,7 +488,7 @@ TaskPlugin=task/affinity,task/cgroup
 # TIMERS
 #BatchStartTimeout=10
 #CompleteWait=0
-#EpilogMsgTime=2000
+#EpilogMsgTime=2001
 #GetEnvTimeout=2
 #HealthCheckInterval=0
 #HealthCheckProgram=

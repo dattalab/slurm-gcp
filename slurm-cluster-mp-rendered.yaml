@@ -23,19 +23,21 @@ resources:
 - name:       slurm-cluster
   type:       slurm.jinja
   properties:
-    cluster_name            : datta-multi
+    cluster_name            : datta
     zone                    : us-east1-b
     region                  : us-east1
     cidr                    : 10.10.0.0/16
 
     controller_machine_type : n1-standard-8
-    # compute_machine_type    : n1-highmem-16
     login_machine_type      : n1-standard-2
     login_node_count        : 1
 
     # Optional compute configuration fields
     controller_disk_type       : pd-standard
-    controller_disk_size_gb    : 2000
+    controller_disk_size_gb    : 200
+    controller_secondary_disk          : True
+    controller_secondary_disk_type     : pd-standard
+    controller_secondary_disk_size_gb  : 3000
     login_disk_type            : pd-standard
     login_disk_size_gb         : 10
     nfs_apps_dir               : /apps
@@ -46,46 +48,37 @@ resources:
     external_compute_ips    : True
     default_account         : default
     slurm_version           : 18.08-latest
-    default_users           : dattalab, jmarkow, ralph, wgillis
-
-    #slurm_version           : 18.08-latest
-    #default_account         : default
-
+    default_users           : markowitzmeister_gmail_com
     partitions :
     - name           : small-utility-b
       machine_type   : n1-standard-4
       max_node_count : 5
       zone           : us-east1-b
       preemptible_bursting       : False
-    - name           : small-compute-d-preemptible
-      machine_type   : n1-standard-16
-      max_node_count : 50
+    - name           : small-utility-d
+      machine_type   : n1-standard-4
+      max_node_count : 5
       zone           : us-east1-d
-      preemptible_bursting       : True
+      preemptible_bursting       : False
     - name           : small-compute-b-preemptible
       machine_type   : n1-standard-16
       max_node_count : 50
       zone           : us-east1-b
       preemptible_bursting       : True
+    - name           : small-compute-b
+      machine_type   : n1-standard-16
+      max_node_count : 50
+      zone           : us-east1-b
+      preemptible_bursting       : False
     - name           : big-compute-d-preemptible
       machine_type   : n1-standard-64
-      max_node_count : 15
+      max_node_count : 25
       zone           : us-east1-d
       preemptible_bursting       : True
     - name           : big-compute-d
       machine_type   : n1-standard-64
-      max_node_count : 15
+      max_node_count : 25
       zone           : us-east1-d
-      preemptible_bursting       : False
-    - name           : big-compute-b-preemptible
-      machine_type   : n1-standard-64
-      max_node_count : 15
-      zone           : us-east1-b
-      preemptible_bursting       : True
-    - name           : big-compute-b
-      machine_type   : n1-standard-64
-      max_node_count : 15
-      zone           : us-east1-b
       preemptible_bursting       : False
     - name           : small-gpu-b-preemptible
       machine_type   : n1-standard-16
@@ -94,10 +87,17 @@ resources:
       preemptible_bursting       : True
       gpu_type       : nvidia-tesla-p100
       gpu_count      : 1
-    - name           : big-gpu-b-preemptible
+    - name           : small-gpu-b
       machine_type   : n1-standard-16
       max_node_count : 10
       zone           : us-east1-b
+      preemptible_bursting       : False
+      gpu_type       : nvidia-tesla-p100
+      gpu_count      : 1
+    - name           : big-gpu-c-preemptible
+      machine_type   : n1-standard-16
+      max_node_count : 10
+      zone           : us-east1-c
       preemptible_bursting       : True
       gpu_type       : nvidia-tesla-p100
       gpu_count      : 4
